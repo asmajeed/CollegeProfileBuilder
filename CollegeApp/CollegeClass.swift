@@ -17,6 +17,7 @@ class CollegeClass: NSObject
     var enrollment = " "
     var image = UIImage(named: "default")
     
+    
     init(Name:String, Location: String, Enrollment: String, Image: UIImage)
     {
         name = Name

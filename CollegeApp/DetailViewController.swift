@@ -7,8 +7,10 @@
 //
 
 import UIKit
+import SafariServices
 
-class DetailViewController: UIViewController
+class DetailViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate
+    
 {
 
     @IBOutlet weak var myImageView: UIImageView!
@@ -19,7 +21,13 @@ class DetailViewController: UIViewController
     
     @IBOutlet weak var enrollmentTextField: UITextField!
     
+    
+    
      var collegeDetail: CollegeClass!
+    
+    let imagePicker = UIImagePickerController()
+    
+    var urlString = URL(string: "http://www.uic.edu/")!
     
     override func viewDidLoad()
     {
@@ -29,6 +37,8 @@ class DetailViewController: UIViewController
         nameTextField.text = collegeDetail.name
         locationTextField.text = collegeDetail.location
         enrollmentTextField.text = collegeDetail.enrollment
+        
+        imagePicker.delegate = self
         
     }
 
@@ -41,6 +51,33 @@ class DetailViewController: UIViewController
         
         collegeDetail.enrollment = enrollmentTextField.text!
         
+    }
+    
+    
+    @IBAction func libraryButtonTapped(_ sender: Any)
+    {
+        getPhotoLibrary()
+    }
+    
+    func getPhotoLibrary()
+    {
+        imagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary
+        present(imagePicker, animated: true, completion: nil)
+        
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any])
+    {
+        imagePicker.dismiss(animated: true)
+        {
+            let selectedImage = info[UIImagePickerControllerOriginalImage] as! UIImage
+            self.myImageView.image = selectedImage
+        }
+    }
+    
+    @IBAction func openInSafariWithBackButton(_ sender: Any)
+    {
+        UIApplication.shared.openURL(urlString)
     }
     
 
